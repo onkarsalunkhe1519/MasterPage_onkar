@@ -32,11 +32,11 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Hello, 
+          Hello, <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="#">Profile</a>
-          <a class="dropdown-item" href="#">Logout</a>
+            <asp:Button class="dropdown-item" ID="Button1" runat="server" Text="Logout" OnClick="Button1_Click" />
           
         </div>
       </li>

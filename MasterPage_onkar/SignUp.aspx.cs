@@ -24,11 +24,22 @@ namespace MasterPage_onkar
             string email=TextBox2.Text;
             string password=TextBox3.Text;
             string urole = "user";
-            string q = $"exec AddUser '{username}','{email}','{password}','{urole}'";
-            SqlCommand cmd= new SqlCommand(q,conn);
-            cmd.ExecuteNonQuery();
-            Response.Write("<script>alert('User Registered');window.location.href='Login.aspx'</script>");
+            string query = $"exec FindExistingUser '{email}'";
+            SqlCommand ccmd = new SqlCommand(query, conn);
+            SqlDataReader rdr = ccmd.ExecuteReader();
+            if (rdr.HasRows)
+            {
+                Response.Write("<script> alert('UserId Already Register')</script> ");
+            }
+            else
+            {
+                string q = $"exec AddUser '{username}','{email}','{password}','{urole}'";
+                SqlCommand cmd = new SqlCommand(q, conn);
+                cmd.ExecuteNonQuery();
+                Response.Write("<script>alert('User Registered');window.location.href='Login.aspx'</script>");
 
+
+            }
         }
     }
 }

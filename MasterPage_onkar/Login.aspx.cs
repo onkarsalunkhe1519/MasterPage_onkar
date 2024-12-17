@@ -23,17 +23,24 @@ namespace MasterPage_onkar
             string email=TextBox1.Text;
             
             string password=TextBox2.Text;
+           
+            
             string q = $"exec SignIn '{email}','{password}'";
             SqlCommand cmd = new SqlCommand(q, conn);
             SqlDataReader r = cmd.ExecuteReader();
+
+            
+
             if (r.HasRows) {
                 while (r.Read()) {
-                    if (r["email"].Equals(email) && r["password"].Equals(password) && r["urole"].Equals("admin"))
+                    if ((r["email"].Equals(email) || r["username"].Equals(email) && r["password"].Equals(password)) && r["urole"].Equals("admin"))
                     {
+                        Session["MyUser"] = email;
                         Response.Redirect("AdminHome.aspx");
                     }
-                    if (r["email"].Equals(email) && r["password"].Equals(password) && r["urole"].Equals("user"))
+                    if (r["email"].Equals(email) || r["username"].Equals(email) && r["password"].Equals(password) && r["urole"].Equals("user"))
                     {
+                        Session["MyUser"] = email;
                         Response.Redirect("UserHome.aspx");
                     }
 

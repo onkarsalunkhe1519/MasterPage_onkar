@@ -11,7 +11,14 @@ namespace MasterPage_onkar
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            Label1.Text = Session["MyUser"].ToString();
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("Login.aspx");
         }
     }
 }
