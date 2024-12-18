@@ -20,6 +20,7 @@ namespace MasterPage_onkar
             conn = new SqlConnection(cs);
             conn.Open();
             fetchproduct();
+            findtotal();
 
 
         }
@@ -47,6 +48,48 @@ namespace MasterPage_onkar
             SqlCommand cmd=new SqlCommand(q, conn);
             cmd.ExecuteNonQuery();
             fetchproduct();
+            findtotal();
+        }
+        public void findtotal() {
+            string email = Session["MyUser"].ToString();
+            string query = $"exec FindUserByEmail '{email}'";
+            SqlCommand cmdd = new SqlCommand(query, conn);
+            SqlDataReader rdr = cmdd.ExecuteReader();
+            rdr.Read();
+            string su = rdr["username"].ToString();
+            string q = $"exec findtotal '{su}'";
+            SqlCommand cmd = new SqlCommand(q, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            reader.Read();
+            string amt =reader["grandtotal"].ToString();
+            Label8.Text ="Grand Total : "+ amt;
+            Session["GrandTotal"] = amt;
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            string email = Session["MyUser"].ToString();
+            string query = $"exec FindUserByEmail '{email}'";
+            SqlCommand cmdd = new SqlCommand(query, conn);
+            SqlDataReader rdr = cmdd.ExecuteReader();
+            rdr.Read();
+            string su = rdr["username"].ToString();
+            string q1 = $"exec Checkoutproc {su}";
+            SqlCommand cmd= new SqlCommand(q1, conn);
+            int row=cmd.ExecuteNonQuery();
+            if (row > 0)
+            {
+                string q2 = $"exec deletefromcart {su}";
+                SqlCommand cmd2 = new SqlCommand(q2,conn);
+                cmd2.ExecuteNonQuery();
+                Response.Redirect("Payment.aspx");
+            }
+            else
+            {
+                Response.Write("Wrong");
+
+            }
+
         }
     }
 }

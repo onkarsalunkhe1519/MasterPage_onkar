@@ -51,9 +51,14 @@
          </ItemTemplate>
             </asp:TemplateField>
 
-            
+                
 
         </Columns>
+
     </asp:GridView>
+    <asp:Label ID="Label8" runat="server" Text="Label"></asp:Label>
+
+    <br />
+    <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="CheckOut" />
 
 </asp:Content>
